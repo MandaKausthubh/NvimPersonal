@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Quarto Basics\"\n",
+        "format:\n",
+        "  html:\n",
+        "    code-fold: true\n",
+        "jupyter: python3\n",
+        "---\n",
+        "\n",
+        "\n",
+        "For a demonstration of a line plot on a polar axis, see @fig-polar.\n"
+      ],
+      "id": "3472b7c4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| label: fig-polar\n",
+        "#| fig-cap: A line plot on a polar axis\n",
+        "\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import tensorflow as tf\n",
+        "from tensorflow import keras\n",
+        "\n",
+        "r = np.arange(0, 2, 0.01)\n",
+        "theta = 2 * np.pi * r\n",
+        "fig, ax = plt.subplots(\n",
+        "  subplot_kw = {'projection': 'polar'} \n",
+        ")\n",
+        "ax.plot(theta, r);\n",
+        "ax.set_rticks([0.5, 1, 1.5, 2]);\n",
+        "ax.grid(True);\n",
+        "plt.show()"
+      ],
+      "id": "fig-polar",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "![](./img/testimage.png)\n"
+      ],
+      "id": "0d8aa612"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import keras as kr\n",
+        "\n",
+        "# Create a Population Based Training object \n",
+        "pbt = kr.optimizers.PopulationBasedTraining(\n",
+        "  hyperparameters = {\n",
+        "    'learning_rate': 0.1,\n",
+        "    'decay': 1e-6\n",
+        "  }\n",
+        ")"
+      ],
+      "id": "4758ea5b",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/mandakausthubh/.pyenv/versions/3.12.5/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
