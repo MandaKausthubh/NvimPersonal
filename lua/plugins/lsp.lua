@@ -1,3 +1,5 @@
+local conda_prefix = os.getenv("CONDA_PREFIX")
+local python_path = conda_prefix and (conda_prefix .. "/bin/python") or vim.fn.exepath("python")
 
 return {
 
@@ -65,6 +67,27 @@ return {
       require('mason').setup()
       require('mason-lspconfig').setup {
         automatic_installation = true,
+        automatic_enable = false,
+        ensure_installed = {
+            'marksman',
+            'r_language_server',
+            'cssls',
+            'html',
+            'emmet_language_server',
+            'yamlls',
+            'jsonls',
+            'dotls',
+            'clangd',
+            'gopls',
+            'ts_ls',
+            'lua_ls',
+            'vimls',
+            'bashls',
+            -- 'jedi_language_server',
+            'rust_analyzer',
+            -- 'ruff_lsp', -- ruff lsp is not working with mason-lspconfig
+            -- 'pyright',
+        }
       }
       require('mason-tool-installer').setup {
         ensure_installed = {
@@ -74,6 +97,7 @@ return {
           'isort',
           'tree-sitter-cli',
           'jupytext',
+          -- 'pylint',
         },
       }
 
@@ -282,10 +306,10 @@ return {
       --   flags = lsp_flags,
       -- }
 
-      lspconfig.jedi_language_server.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+      -- lspconfig.jedi_language_server.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
 
       lspconfig.rust_analyzer.setup{
         capabilities = capabilities,
@@ -314,42 +338,45 @@ return {
       capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 
-      -- lspconfig.pyright.setup {
-      --   capabilities = capabilities,
-      --   flags = lsp_flags,
-      --   settings = {
-      --     python = {
-      --       analysis = {
-      --         autoSearchPaths = true,
-      --         useLibraryCodeForTypes = true,
-      --         diagnosticMode = 'workspace',
-      --       },
-      --     },
-      --   },
-      --   root_dir = function(fname)
-      --     return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt')(fname) or util.path.dirname(fname)
-      --   end,
-      -- }
-        
-
-            require("lspconfig").pyright.setup {
-                capabilities = capabilities,
-                flags = lsp_flags,
-                settings = {
-                    python = {
-                        analysis = {
-                            autoSearchPaths = true,
-                            useLibraryCodeForTypes = true,
-                            diagnosticMode = "workspace",
-                        },
-                        pythonPath = vim.fn.exepath("python"),
+        -- lspconfig.pyre.setup {
+        --     capabilities = capabilities,
+        --     flags = lsp_flags,
+        --     settings = {
+        --         python = {
+        --             analysis = {
+        --                 autoSearchPaths = true,
+        --                 useLibraryCodeForTypes = true,
+        --                 diagnosticMode = 'workspace',
+        --             },
+        --         },
+        --         pythonPath = python_path,
+        --     },
+        --     root_dir = function(fname)
+        --         return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt')(fname)
+        --                 or vim.fs.dirname(fname)
+        --     end,
+        -- }
+        --
+        lspconfig.pyright.setup {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            settings = {
+                python = {
+                    analysis = {
+                        autoSearchPaths = true,
+                        useLibraryCodeForTypes = true,
+                        diagnosticMode = "workspace",
                     },
+                    -- pythonPath = vim.fn.exepath("python"),
+                    pythonPath = python_path,
+                    -- print("Python path: " .. vim.fn.exepath("python")),
                 },
-                root_dir = function(fname)
-                    return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-                        or util.path.dirname(fname)
-                end,
-            }
+            },
+            root_dir = function(fname)
+                return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
+                    or vim.fs.dirname(fname)
+            end,
+        }
 
     end,
   },

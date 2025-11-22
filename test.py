@@ -1,7 +1,1 @@
-title: "Quarto Basics"
-format:
-  html:
-    code-fold: true
-jupyter: python3
-
 
