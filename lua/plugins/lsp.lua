@@ -61,13 +61,13 @@ return {
       { 'folke/neoconf.nvim', opts = {}, enabled = false },
     },
     config = function()
-      local lspconfig = require 'lspconfig'
+      -- local lspconfig = require 'lspconfig'
       local util = require 'lspconfig.util'
 
       require('mason').setup()
       require('mason-lspconfig').setup {
         automatic_installation = true,
-        automatic_enable = false,
+        automatic_enable = true,
         ensure_installed = {
             'marksman',
             'r_language_server',
@@ -86,7 +86,7 @@ return {
             -- 'jedi_language_server',
             'rust_analyzer',
             -- 'ruff_lsp', -- ruff lsp is not working with mason-lspconfig
-            -- 'pyright',
+            'pyright',
         }
       }
       require('mason-tool-installer').setup {
@@ -150,77 +150,153 @@ return {
       -- $home/.config/marksman/config.toml :
       -- [core]
       -- markdown.file_extensions = ["md", "markdown", "qmd"]
-      lspconfig.marksman.setup {
-        capabilities = capabilities,
-        filetypes = { 'markdown', 'quarto' },
-        root_dir = util.root_pattern('.git', '.marksman.toml', '_quarto.yml'),
-      }
+      -- lspconfig.marksman.setup {
+      --   capabilities = capabilities,
+      --   filetypes = { 'markdown', 'quarto' },
+      --   root_dir = util.root_pattern('.git', '.marksman.toml', '_quarto.yml'),
+      -- }
+        vim.lsp.config( "marksman", {
+            capabilities = capabilities,
+            filetypes = { 'markdown', 'quarto' },
+            root_dir = util.root_pattern('.git', '.marksman.toml', '_quarto.yml'),
+        })
+        vim.lsp.enable("marksman")
 
-      lspconfig.r_language_server.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-        settings = {
-          r = {
-            lsp = {
-              rich_documentation = false,
+      -- lspconfig.r_language_server.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      --   settings = {
+      --     r = {
+      --       lsp = {
+      --         rich_documentation = false,
+      --       },
+      --     },
+      --   },
+      -- }
+        vim.lsp.config( "r_language_server", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            settings = {
+                r = {
+                    lsp = {
+                        rich_documentation = false,
+                    },
+                },
             },
-          },
-        },
-      }
+        })
+        vim.lsp.enable("r_language_server")
 
-      lspconfig.cssls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+      -- lspconfig.cssls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "cssls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("cssls")
 
-      lspconfig.html.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+      -- lspconfig.html.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
 
-      lspconfig.emmet_language_server.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+        vim.lsp.config( "html", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("html")
 
-      lspconfig.yamlls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-        settings = {
-          yaml = {
-            schemaStore = {
-              enable = true,
-              url = '',
+      -- lspconfig.emmet_language_server.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "emmet_language_server", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("emmet_language_server")
+
+      -- lspconfig.yamlls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      --   settings = {
+      --     yaml = {
+      --       schemaStore = {
+      --         enable = true,
+      --         url = '',
+      --       },
+      --     },
+      --   },
+      -- }
+        vim.lsp.config( "yamlls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            settings = {
+                yaml = {
+                    schemaStore = {
+                        enable = true,
+                        url = '',
+                    },
+                },
             },
-          },
-        },
-      }
+        })
+        vim.lsp.enable("yamlls")
 
-      lspconfig.jsonls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
 
-      lspconfig.dotls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
 
-      lspconfig.clangd.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+      -- lspconfig.jsonls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "jsonls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("jsonls")
 
-      lspconfig.gopls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
 
-      lspconfig.ts_ls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-        filetypes = { 'js', 'javascript', 'typescript', 'ojs' },
-      }
+      -- lspconfig.dotls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "dotls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("dotls")
+
+      -- lspconfig.clangd.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+         vim.lsp.config( "clangd", {
+                capabilities = capabilities,
+                flags = lsp_flags,
+          })
+         vim.lsp.enable("clangd")
+
+      -- lspconfig.gopls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "gopls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("gopls")
+
+      -- lspconfig.ts_ls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      --   filetypes = { 'js', 'javascript', 'typescript', 'ojs' },
+      -- }
+        vim.lsp.config( "ts_ls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            filetypes = { 'js', 'javascript', 'typescript', 'ojs' },
+        })
+        vim.lsp.enable("ts_ls")
 
       local function get_quarto_resource_path()
         local function strsplit(s, delimiter)
@@ -247,51 +323,96 @@ return {
         table.insert(lua_plugin_paths, resource_path .. '/lua-plugin/plugin.lua')
       end
 
-      lspconfig.lua_ls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
+      -- lspconfig.lua_ls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      --   settings = {
+      --     Lua = {
+      --       completion = {
+      --         callSnippet = 'Replace',
+      --       },
+      --       runtime = {
+      --         version = 'LuaJIT',
+      --         -- plugin = lua_plugin_paths, -- handled by lazydev
+      --       },
+      --       diagnostics = {
+      --         disable = { 'trailing-space' },
+      --       },
+      --       workspace = {
+      --         -- library = lua_library_files, -- handled by lazydev
+      --         checkThirdParty = false,
+      --       },
+      --       doc = {
+      --         privateName = { '^_' },
+      --       },
+      --       telemetry = {
+      --         enable = false,
+      --       },
+      --     },
+      --   },
+      -- }
+        vim.lsp.config( "lua_ls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            settings = {
+                Lua = {
+                    completion = {
+                        callSnippet = 'Replace',
+                    },
+                    runtime = {
+                        version = 'LuaJIT',
+                        -- plugin = lua_plugin_paths, -- handled by lazydev
+                    },
+                    diagnostics = {
+                        disable = { 'trailing-space' },
+                    },
+                    workspace = {
+                        -- library = lua_library_files, -- handled by lazydev
+                        checkThirdParty = false,
+                    },
+                    doc = {
+                        privateName = { '^_' },
+                    },
+                    telemetry = {
+                        enable = false,
+                    },
+                },
             },
-            runtime = {
-              version = 'LuaJIT',
-              -- plugin = lua_plugin_paths, -- handled by lazydev
-            },
-            diagnostics = {
-              disable = { 'trailing-space' },
-            },
-            workspace = {
-              -- library = lua_library_files, -- handled by lazydev
-              checkThirdParty = false,
-            },
-            doc = {
-              privateName = { '^_' },
-            },
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
-      }
+        })
+        vim.lsp.enable("lua_ls")
 
-      lspconfig.vimls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
+      -- lspconfig.vimls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "vimls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("vimls")
 
 
-      lspconfig.julials.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.bashls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-        filetypes = { 'sh', 'bash' },
-      }
+      -- lspconfig.julials.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      -- }
+        vim.lsp.config( "julials", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("julials")
+      -- lspconfig.bashls.setup {
+      --   capabilities = capabilities,
+      --   flags = lsp_flags,
+      --   filetypes = { 'sh', 'bash' },
+      -- }
+            --
+        vim.lsp.config( "bashls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+            filetypes = { 'sh', 'bash' },
+        })
+        vim.lsp.enable("bashls")
 
       -- Add additional languages here.
       -- See `:h lspconfig-all` for the configuration.
@@ -300,27 +421,55 @@ return {
       --   capabilities = capabilities,
       --   flags = lsp_flags
       -- }
+        vim.lsp.config( "hls", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("hls")
 
       -- lspconfig.clangd.setup {
       --   capabilities = capabilities,
       --   flags = lsp_flags,
       -- }
+            --
+         vim.lsp.config( "clangd", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("clangd")
 
       -- lspconfig.jedi_language_server.setup {
       --   capabilities = capabilities,
       --   flags = lsp_flags,
       -- }
 
-      lspconfig.rust_analyzer.setup{
-        capabilities = capabilities,
-        settings = {
-          ['rust-analyzer'] = {
-            diagnostics = {
-              enable = false;
+        vim.lsp.config( "jedi_language_server", {
+            capabilities = capabilities,
+            flags = lsp_flags,
+        })
+        vim.lsp.enable("jedi_language_server")
+
+     --  lspconfig.rust_analyzer.setup{
+     --    capabilities = capabilities,
+     --    settings = {
+     --      ['rust-analyzer'] = {
+     --        diagnostics = {
+     --          enable = false;
+     --        }
+     --      }
+     --    }
+     -- }
+        vim.lsp.config( "rust_analyzer", {
+            capabilities = capabilities,
+            settings = {
+                ['rust-analyzer'] = {
+                    diagnostics = {
+                        enable = false;
+                    }
+                }
             }
-          }
-        }
-     }
+        })
+        vim.lsp.enable("rust_analyzer")
 
       -- lspconfig.ruff_lsp.setup {
       --   capabilities = capabilities,
@@ -356,8 +505,55 @@ return {
         --                 or vim.fs.dirname(fname)
         --     end,
         -- }
-        --
-        lspconfig.pyright.setup {
+
+            vim.lsp.config( "pyre", {
+                capabilities = capabilities,
+                flags = lsp_flags,
+                settings = {
+                    python = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            useLibraryCodeForTypes = true,
+                            diagnosticMode = 'workspace',
+                        },
+                        pythonPath = python_path,
+                    },
+                },
+                root_dir = function(fname)
+                    return util.root_pattern(
+                        '.git',
+                        'setup.py',
+                        'setup.cfg',
+                        'pyproject.toml',
+                        'requirements.txt'
+                    )(fname) or vim.fs.dirname(fname)
+                end,
+            })
+
+            vim.lsp.enable("pyre")
+
+        -- lspconfig.pyright.setup {
+        --     capabilities = capabilities,
+        --     flags = lsp_flags,
+        --     settings = {
+        --         python = {
+        --             analysis = {
+        --                 autoSearchPaths = true,
+        --                 useLibraryCodeForTypes = true,
+        --                 diagnosticMode = "workspace",
+        --                 typeCheckingMode = "basic",
+        --             },
+        --             -- pythonPath = vim.fn.exepath("python"),
+        --             pythonPath = python_path,
+        --             print("Python path: " .. vim.fn.exepath("python")),
+        --         },
+        --     },
+        --     root_dir = function(fname)
+        --         return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
+        --             or vim.fs.dirname(fname)
+        --     end,
+        -- }
+        vim.lsp.config("pyright", {
             capabilities = capabilities,
             flags = lsp_flags,
             settings = {
@@ -365,18 +561,26 @@ return {
                     analysis = {
                         autoSearchPaths = true,
                         useLibraryCodeForTypes = true,
-                        diagnosticMode = "workspace",
+                        diagnosticMode = "openFilesOnly",
+                        typeCheckingMode = "basic",
                     },
-                    -- pythonPath = vim.fn.exepath("python"),
                     pythonPath = python_path,
-                    -- print("Python path: " .. vim.fn.exepath("python")),
                 },
             },
-            root_dir = function(fname)
-                return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-                    or vim.fs.dirname(fname)
-            end,
-        }
+
+            root_markers = {
+                    ".git", "setup.py", "setup.cfg",
+                    "pyproject.toml", "requirements.txt"
+            },
+
+            -- root_dir = function(fname)
+            --     return util.root_pattern(
+            --         ".git", "setup.py", "setup.cfg",
+            --         "pyproject.toml", "requirements.txt"
+            --     )(fname) or vim.fs.dirname(fname)
+            -- end,
+        })
+        vim.lsp.enable("pyright")   -- ← this line was missing
 
     end,
   },

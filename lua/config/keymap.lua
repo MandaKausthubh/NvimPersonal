@@ -217,6 +217,23 @@ end
 --add your own here if you want them to
 --show up in the popup as well
 
+local pyright_mode = "standard"
+
+local function toggle_pyright_type_checking()
+    pyright_mode = pyright_mode == "standard" and "basic" or "standard"
+
+    for _, client in ipairs(vim.lsp.get_clients({ name = "pyright" })) do
+        client.config.settings.python.analysis.typeCheckingMode = pyright_mode
+
+        client.notify("workspace/didChangeConfiguration", {
+            settings = client.config.settings,
+        })
+    end
+
+    vim.notify("Pyright mode: " .. pyright_mode, vim.log.levels.INFO)
+end
+
+
 -- normal mode
 wk.add({
     { "<c-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "go to definition" },
@@ -233,6 +250,7 @@ wk.add({
     { "n", "nzzzv", desc = "center search" },
     { "z?", ":setlocal spell!<cr>", desc = "toggle [z]pellcheck" },
     { "zl", ":Telescope spell_suggest<cr>", desc = "[l]ist spelling suggestions" },
+    { "<leader>tp", toggle_pyright_type_checking, desc = "[t]oggle pyright type checking mode" },
 }, { mode = 'n', silent = true })
 
 -- visual mode
